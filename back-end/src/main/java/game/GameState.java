@@ -5,15 +5,30 @@ import java.util.Arrays;
 public class GameState {
 
     private final Cell[] cells;
+    private final String currentPlayer;    // "X" | "O"
+    private final String winner;           // "X" | "O" | "DRAW" | null
+    private final int historySize;
 
-    private GameState(Cell[] cells) {
+    private GameState(Cell[] cells, String currentPlayer, String winner, int historySize) {
         this.cells = cells;
+        this.currentPlayer = currentPlayer;
+        this.winner = winner;
+        this.historySize = historySize;
     }
 
     public static GameState forGame(Game game) {
         Cell[] cells = getCells(game);
-        return new GameState(cells);
+        String current = game.getPlayer() == Player.PLAYER0 ? "X" : "O";
+        String win = null;
+        Player p = game.getWinner();
+        if (p != null) {
+            win = (p == Player.PLAYER0) ? "X" : "O";
+        } else if (game.isDraw()) {
+            win = "DRAW";
+        }
+        return new GameState(cells, current, win, game.getHistorySize());
     }
+
 
     public Cell[] getCells() {
         return this.cells;
@@ -25,9 +40,22 @@ public class GameState {
      */
     @Override
     public String toString() {
-        return """
-                { "cells": %s}
-                """.formatted(Arrays.toString(this.cells));
+        String cellsJson = Arrays.toString(this.cells);
+
+        String currentPlayerJson = (currentPlayer == null)
+                ? "null"
+                : "\"" + currentPlayer + "\"";
+
+        String winnerJson = (winner == null)
+                ? "null"
+                : "\"" + winner + "\"";
+
+        return "{"
+                + "\"cells\": " + cellsJson + ","
+                + "\"currentPlayer\": " + currentPlayerJson + ","
+                + "\"winner\": " + winnerJson + ","
+                + "\"historySize\": " + historySize
+                + "}";
     }
 
     private static Cell[] getCells(Game game) {
@@ -83,13 +111,11 @@ class Cell {
 
     @Override
     public String toString() {
-        return """
-                {
-                    "text": "%s",
-                    "playable": %b,
-                    "x": %d,
-                    "y": %d 
-                }
-                """.formatted(this.text, this.playable, this.x, this.y);
+        return "{"
+                + "\"text\": \"" + this.text + "\","
+                + "\"playable\": " + this.playable + ","
+                + "\"x\": " + this.x + ","
+                + "\"y\": " + this.y
+                + "}";
     }
 }

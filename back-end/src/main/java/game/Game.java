@@ -40,6 +40,26 @@ public class Game {
         return this.player;
     }
 
+    public int getHistorySize() {
+        return this.history.size() + 1;
+    }
+
+    public boolean isDraw() {
+        // no winner and no empty cells
+        if (getWinner() != null) return false;
+        for (int x = 0; x < 3; x++)
+            for (int y = 0; y < 3; y++)
+                if (board.getCell(x, y) == null) return false;
+        return true;
+    }
+
+    public Game undo() {
+        if (history.isEmpty()) return this;
+        // last snapshot is the previous Game
+        Game prev = history.get(history.size() - 1);
+        return prev;
+    }
+
     public Game play(int x, int y) {
         if (this.board.getCell(x, y) != null)
             return this;

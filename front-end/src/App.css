@@ -1,47 +1,94 @@
-#board {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  background-color: #2196F3;
-  padding: 10px
-}
-
-.cell {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 30px;
-  height: 25vmin;
-  text-align: center;
-}
-
-#bottombar {
-  height: 5vh;
-}
-
-#instructions {
-  height: 5vh;
-  background-color: white;
-  padding: 0px;
-  margin: 0px;
-  text-align: center;
-  border: 1px solid black;
-}
-
-#bottombar button {
-  width: 50%;
-  /* height: 100%; */
-  margin: 0;
-  padding: 0;
-  position: relative;
-  float: left;
-  font-size: 2vw
-}
-
+/* Overall page */
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
 }
 
-.playable { background-color: red;}
+/* Board container */
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: #1976d2;
+  padding: 12px;
+  gap: 8px;
+  max-width: 70vmin;
+  margin: 40px auto 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Individual cells */
+.cell {
+  background-color: #e3f2fd;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 7vmin;
+  height: 20vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+}
+
+/* Playable cells get a subtle highlight + hover effect */
+.playable {
+  cursor: pointer;
+  background-color: #fff9c4;
+}
+
+.playable:hover {
+  background-color: #ffe082;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+/* Bottom area (instructions + buttons) */
+#instructions {
+  height: 5vh;
+  background-color: white;
+  padding: 8px 0;
+  margin: 16px auto 0 auto;
+  max-width: 70vmin;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+#bottombar {
+  height: 6vh;
+  margin: 8px auto 0 auto;
+  max-width: 70vmin;
+  display: flex;
+}
+
+/* Buttons */
+#bottombar button {
+  flex: 1;
+  margin: 0 4px;
+  border: none;
+  border-radius: 999px;
+  background-color: #42a5f5;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#bottombar button:hover:not(:disabled) {
+  background-color: #1e88e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+#bottombar button:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
